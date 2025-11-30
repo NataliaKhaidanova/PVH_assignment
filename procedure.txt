@@ -1,0 +1,33 @@
+CREATE OR REPLACE PROCEDURE `pvh-assignment.orders.refresh_orders_pipeline`()
+BEGIN
+  DELETE FROM `pvh-assignment.orders.order_events_ranked`;
+  INSERT INTO `pvh-assignment.orders.order_events_ranked`
+  SELECT
+    order_id,
+    event_type,
+    event_timestamp,
+    order_created_at,
+    customer_id,
+    amount,
+    currency,
+    source,
+    ingested_at,
+    ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY event_timestamp DESC) AS rnk
+  FROM `pvh-assignment.orders.order_events_staging`;
+
+  DELETE FROM `pvh-assignment.orders.orders_events_final`;
+  INSERT INTO `pvh-assignment.orders.orders_events_final`
+  SELECT
+    order_id,
+    customer_id,
+    event_type AS latest_status,
+    event_timestamp AS latest_event_timestamp,
+    order_created_at,
+    amount,
+    currency,
+    source,
+    CURRENT_TIMESTAMP() AS updated_at
+  FROM `pvh-assignment.orders.order_events_ranked`
+  WHERE rnk = 1;
+
+END;

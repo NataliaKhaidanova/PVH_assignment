@@ -1,0 +1,41 @@
+CREATE SCHEMA IF NOT EXISTS `pvh-assignment.orders`;
+
+CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.order_events_staging` (
+  order_id STRING,
+  event_type STRING,
+  event_timestamp TIMESTAMP,
+  order_created_at TIMESTAMP,
+  customer_id STRING,
+  amount FLOAT64,
+  currency STRING,
+  source STRING,
+  ingested_at TIMESTAMP
+)
+PARTITION BY DATE(order_created_at);
+
+CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.order_events_ranked` (
+  order_id STRING,
+  event_type STRING,
+  event_timestamp TIMESTAMP,
+  order_created_at TIMESTAMP,
+  customer_id STRING,
+  amount FLOAT64,
+  currency STRING,
+  source STRING,
+  ingested_at TIMESTAMP,
+  rnk INT64
+)
+PARTITION BY DATE(order_created_at);
+
+CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.orders_events_final` (
+  order_id STRING,
+  customer_id STRING,
+  latest_status STRING,
+  latest_event_timestamp TIMESTAMP,
+  order_created_at TIMESTAMP,
+  amount FLOAT64,
+  currency STRING,
+  source STRING,
+  updated_at TIMESTAMP
+)
+PARTITION BY DATE(order_created_at);

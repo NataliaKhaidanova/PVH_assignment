@@ -8,7 +8,7 @@ import json
 # In real life (company scenario) must be stored securely
 PROJECT_ID = 'pvh-assignment'
 SUBSCRIPTION_ID = 'orders-events-topic-sub'
-BQ_TABLE = 'pvh-assignment.orders.order_events_streaming'
+BQ_TABLE = 'pvh-assignment.orders.order_events_staging'
 
 #### INIT --------------------------------------------------------------------------------------------------------------
 subscriber = pubsub_v1.SubscriberClient()
