@@ -70,9 +70,10 @@ def main():
     stream = subscriber.subscribe(subscription_path, callback=callback)
 
     try:
+        # Make the program keep running and listen for new messages
         stream.result()
     except KeyboardInterrupt:
-        stream.cancel() # Make the program keep running after you exit the terminal
+        stream.cancel()
 
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
