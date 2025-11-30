@@ -38,9 +38,7 @@ def callback(event) -> None:
         data = json.loads(event.data.decode('utf-8'))
         print(f"Order ID: {data.get('order_id')}")
 
-        # Transform the data. This is needed mainly because BigQuery expects typed, structured rows and not JSON bytes.
-        # We must ensure the correct data types since BigQuery expects them. (So, can't make everything TEXT like in
-        # PostgreSQL and then transform the data with a database procedure)
+        # Transform the data
         row = {
             'order_id': data.get('order_id'),
             'event_type': data.get('event_type'),
