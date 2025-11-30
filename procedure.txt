@@ -15,8 +15,8 @@ BEGIN
     ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY event_timestamp DESC) AS rnk
   FROM `pvh-assignment.orders.order_events_staging`;
 
-  DELETE FROM `pvh-assignment.orders.orders_events_final`;
-  INSERT INTO `pvh-assignment.orders.orders_events_final`
+  DELETE FROM `pvh-assignment.orders.orders_events_mart`;
+  INSERT INTO `pvh-assignment.orders.orders_events_mart`
   SELECT
     order_id,
     customer_id,

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.order_events_ranked` (
 )
 PARTITION BY DATE(order_created_at);
 
-CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.orders_events_final` (
+CREATE TABLE IF NOT EXISTS `pvh-assignment.orders.orders_events_mart` (
   order_id STRING,
   customer_id STRING,
   latest_status STRING,
