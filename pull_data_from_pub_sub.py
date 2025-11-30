@@ -53,13 +53,13 @@ def callback(event) -> None:
             'ingested_at': datetime.utcnow().isoformat() + 'Z'
         }
 
-        # Insert the row into BigQuery (Will fail with 403 if you have a free tier)
+        # Insert the row into BigQuery (will fail with 403 if you have a free tier)
         errors = bq_client.insert_rows_json(BQ_TABLE, [row])
         if errors:
             print(f'BigQuery insert failed: {errors}')
             return  # Don't ACK so Pub/Sub will retry the message
 
-        # ACK (remove the message from the Sub/Pub topic)
+        # ACK (remove the message from the Pub/Sub topic)
         event.ack()  # Comment out for testing
 
     except Exception as e:
